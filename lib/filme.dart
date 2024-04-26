@@ -4,10 +4,10 @@ class Filme
   //atributos
   String _nome = "";
   String _email = "";
-  List<String> _interesses = [];
+  List<bool> _interesses = [];
   String _mvdc = "";
   String _favorito = "";
-  String _notificacoes = "";
+  bool _notificacoes = false;
 
   //construtores
   Filme(this._nome, this._email, this._interesses, this._mvdc, this._favorito, this._notificacoes);
@@ -25,9 +25,9 @@ class Filme
 
   set interesses( value) => this._interesses = value;
 
-  get MADC => this._mvdc;
+  get mvdc => this._mvdc;
 
-  set MADC( value) => this._mvdc = value;
+  set mvdc( value) => this._mvdc = value;
 
   get favorito => this._favorito;
 

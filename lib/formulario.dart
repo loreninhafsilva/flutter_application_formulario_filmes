@@ -20,12 +20,15 @@ class _MyFormularioState extends State<MyFormulario> {
   bool acao = false;
   bool notifications = false;
   String mvdc = "";
+  
+  List<bool> interesses = [false, false, false, false, false, false];
+  List<Filme> cadastro = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Formulário de Filmes Favoritos", style: TextStyle(color: Colors.white),),
+        title: Text("Formulário de Filmes Favoritos", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         backgroundColor: Colors.red[400],
         centerTitle: true,),
       body: SingleChildScrollView(child: Center(child: Column(children: [
@@ -52,7 +55,7 @@ class _MyFormularioState extends State<MyFormulario> {
         ),
         SizedBox(height: 10,),
         TextField(
-         controller: controladorNome,
+         controller: controladorEmail,
          onChanged: (value) {
           print(value);
          },
@@ -63,12 +66,13 @@ class _MyFormularioState extends State<MyFormulario> {
          ),
         ),
         SizedBox(height: 30,),
-        Text("Escola seus gêneros favoritos"),
+        Text("Escolha seus gêneros favoritos", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold, fontSize: 20)),
         CheckboxListTile(
           title: Text("Romance"),
           value: romance, 
           onChanged: (value){
             romance = value!;
+            interesses[0] = true;
             setState(() {
               
             });
@@ -78,6 +82,7 @@ class _MyFormularioState extends State<MyFormulario> {
           value: terror, 
           onChanged: (value){
             terror = value!;
+            interesses[1] = true;
             setState(() {
               
             });
@@ -87,6 +92,7 @@ class _MyFormularioState extends State<MyFormulario> {
           value: drama, 
           onChanged: (value){
             drama = value!;
+            interesses[2] = true;
             setState(() {
               
             });
@@ -96,6 +102,7 @@ class _MyFormularioState extends State<MyFormulario> {
           value: comedia, 
           onChanged: (value){
             comedia = value!;
+            interesses[3] = true;
             setState(() {
               
             });
@@ -105,6 +112,7 @@ class _MyFormularioState extends State<MyFormulario> {
           value: documental, 
           onChanged: (value){
             documental = value!;
+            interesses[4] = true;
             setState(() {
               
             });
@@ -114,14 +122,16 @@ class _MyFormularioState extends State<MyFormulario> {
           value: acao, 
           onChanged: (value){
             acao = value!;
+            interesses[5] = true;
             setState(() {
               
             });
           }),
         Divider(thickness: 1, color: Color.fromARGB(255, 0, 0, 0),),
-        Text("Marvel ou DC?"),
+        SizedBox(height: 10,),
+        Text("Marvel ou DC?", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold, fontSize: 20)),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("Marvel"),
+          Text("Marvel", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontSize: 16)),
           Radio(
           value: "Marvel", 
           groupValue: mvdc, 
@@ -131,7 +141,7 @@ class _MyFormularioState extends State<MyFormulario> {
               
             });
           }),
-          Text("DC"),
+          Text("DC", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontSize: 16)),
           Radio(
           value: "DC", 
           groupValue: mvdc, 
@@ -143,7 +153,8 @@ class _MyFormularioState extends State<MyFormulario> {
           })
         ],),
         Divider(thickness: 1, color: Color.fromARGB(255, 0, 0, 0),),
-        Text("Qual o seu filme favorito?"),
+        SizedBox(height: 10,),
+        Text("Qual o seu filme favorito?", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold, fontSize: 20)),
         TextField(
          controller: controladorFavorito,
          onChanged: (value) {
@@ -168,11 +179,51 @@ class _MyFormularioState extends State<MyFormulario> {
           String nome = controladorNome.text;
           String email = controladorEmail.text;
           String favorito = controladorFavorito.text;
-          String notificacoes = notifications.toString();
-          String mvdc2 = mvdc;
-          Filme fm = new Filme(nome, email, mvdc2, favorito, notificacoes);
-          
-        }, child: Text("Enviar"))
+          bool notificacoes = notifications;
+          Filme fm = new Filme(nome, email, interesses, mvdc, favorito, notificacoes);
+          cadastro.add(fm);
+
+           print('Resultados:\n======================'); 
+           for (var p in cadastro){ 
+            print('Nome: ' + p.nome.toString()); 
+            print('Email: ' + p.email.toString()); 
+            print('Romance: ' + p.interesses[0].toString()); 
+            print('Terror: ' + p.interesses[1].toString()); 
+            print('Drama: ' + p.interesses[2].toString()); 
+            print('Comédia: ' + p.interesses[3].toString()); 
+            print('Documental: ' + p.interesses[4].toString());
+            print('Ação: ' + p.interesses[5].toString()); 
+            print('Marvel ou DC: ' + p.mvdc.toString()); 
+            print('Filme Favorito:' + p.favorito.toString());
+            print('Notificação: ' + p.notificacoes.toString()); 
+            print('======================');
+          }
+          controladorEmail.clear();
+          controladorNome.clear();
+          controladorFavorito.clear();
+          romance = false;
+          interesses[0] = false;
+          terror = false;
+          interesses[1] = false;
+          drama = false;
+          interesses[2] = false;
+          comedia = false;
+          interesses[3] = false;
+          documental = false;
+          interesses[4] = false;
+          acao = false;
+          interesses[5] = false;
+          notifications = false;
+          mvdc = "";
+          setState(() {
+            
+          });
+        }, child: Text("Enviar", style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red, // Cor de fundo do botão
+              onPrimary: Color.fromARGB(255, 0, 0, 0), // Cor do texto do botão
+            ),)
         ]),)
       ]),),
       )  
